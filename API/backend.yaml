@@ -1,0 +1,436 @@
+openapi: 3.0.0
+info:
+  title: Invitación Digital API
+  description: API para gestión de invitados de eventos
+  version: 1.0.0
+  contact:
+    name: Backend Team
+servers:
+  - url: http://localhost:3001
+    description: Servidor de desarrollo
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /api/health:
+    get:
+      summary: Verificar estado del servidor
+      description: Endpoint para verificar que el servidor está funcionando
+      security: []
+      responses:
+        '200':
+          description: Servidor funcionando correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "OK"
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2024-01-15T10:30:00.000Z"
+
+  /api/event-config:
+    get:
+      summary: Obtener configuración del evento
+      description: Obtiene la configuración básica del evento desde el archivo JSON
+      responses:
+        '200':
+          description: Configuración obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventConfig'
+        '404':
+          description: Configuración no encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Configuración no encontrada"
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/invitados:
+    get:
+      summary: Obtener datos de invitados
+      description: Obtiene todos los datos de invitados confirmados y rechazados
+      responses:
+        '200':
+          description: Datos de invitados obtenidos exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitadosData'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/update-invitados:
+    post:
+      summary: Actualizar archivo de invitados
+      description: Actualiza el contenido completo del archivo de invitados
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  description: Contenido JSON como string para escribir al archivo
+              required:
+                - content
+      responses:
+        '200':
+          description: Archivo actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Archivo actualizado correctamente"
+        '500':
+          description: Error al actualizar archivo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/process-rsvp:
+    post:
+      summary: Procesar confirmación o rechazo de invitación
+      description: Procesa la respuesta de una familia a la invitación
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                familyName:
+                  type: string
+                  description: Nombre de la familia
+                  example: "Familia García"
+                maxGuests:
+                  type: integer
+                  description: Número máximo de invitados de la familia
+                  example: 4
+                attendingGuests:
+                  type: integer
+                  description: Número de invitados que asistirán
+                  example: 3
+                status:
+                  type: string
+                  enum: ["CONFIRMADO", "RECHAZADO"]
+                  description: Estado de la confirmación
+                  example: "CONFIRMADO"
+              required:
+                - familyName
+                - maxGuests
+                - attendingGuests
+                - status
+      responses:
+        '200':
+          description: RSVP procesado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "¡Tu solicitud ha sido enviada correctamente! Gracias familia García."
+                  data:
+                    $ref: '#/components/schemas/Contadores'
+        '400':
+          description: Error en la solicitud (límite de intentos excedido)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Esta familia ya ha realizado el máximo de 3 actualizaciones permitidas."
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/generate-pdf:
+    get:
+      summary: Generar reporte PDF de invitados
+      description: Genera un PDF con el reporte completo de invitados confirmados y rechazados
+      responses:
+        '200':
+          description: PDF generado exitosamente
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              description: Nombre del archivo PDF
+              schema:
+                type: string
+                example: 'attachment; filename="invitados-reporte.pdf"'
+        '404':
+          description: No hay datos de invitados
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "No hay datos de invitados"
+        '500':
+          description: Error al generar PDF
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: API Key inválida o faltante
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "API Key requerida o inválida"
+        '429':
+          description: Demasiadas solicitudes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Demasiadas solicitudes, intenta más tarde"
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API Key requerida para acceder a los endpoints (excepto /api/health)
+
+  schemas:
+    EventConfig:
+      type: object
+      properties:
+        eventDate:
+          type: string
+          format: date
+          description: Fecha del evento
+          example: "2025-10-15"
+        eventTime:
+          type: string
+          description: Hora del evento en formato HH:MM
+          example: "18:00"
+        eventTitle:
+          type: string
+          description: Título del evento
+          example: "Boda de Benito & Gabriela"
+        coupleNames:
+          type: string
+          description: Nombres de la pareja
+          example: "Benito & Gabriela"
+        location:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Nombre del lugar
+              example: "Salón de Eventos El Jardín"
+            address:
+              type: string
+              description: Dirección del lugar
+              example: "Av. Principal 123, Ciudad"
+            coordinates:
+              type: string
+              description: Coordenadas GPS
+              example: "40.7128,-74.0060"
+        itinerary:
+          type: array
+          items:
+            type: object
+            properties:
+              time:
+                type: string
+                description: Hora del evento
+                example: "06:00 pm"
+              title:
+                type: string
+                description: Título del evento
+                example: "MISA"
+              icon:
+                type: string
+                description: Clase CSS del icono
+                example: "fas fa-church"
+    InvitadosData:
+      type: object
+      properties:
+        familiasConfirmadas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Familia'
+        familiasRechazadas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Familia'
+        intentosPorFamilia:
+          type: object
+          additionalProperties:
+            type: integer
+          description: Contador de intentos por familia normalizada
+        contadores:
+          $ref: '#/components/schemas/Contadores'
+        ultimaActualizacion:
+          type: string
+          format: date-time
+          example: "2024-01-15T10:30:00.000Z"
+
+    Familia:
+      type: object
+      properties:
+        familia:
+          type: string
+          description: Nombre de la familia
+          example: "Familia García"
+        invitados:
+          type: integer
+          description: Número de invitados
+          example: 3
+        fecha:
+          type: string
+          format: date-time
+          description: Fecha de confirmación/rechazo
+          example: "2024-01-15T10:30:00.000Z"
+
+    Contadores:
+      type: object
+      properties:
+        familiasConfirmadas:
+          type: integer
+          description: Número total de familias confirmadas
+          example: 15
+        familiasRechazadas:
+          type: integer
+          description: Número total de familias rechazadas
+          example: 3
+        totalInvitadosConfirmados:
+          type: integer
+          description: Número total de personas confirmadas
+          example: 45
+        totalInvitadosRechazados:
+          type: integer
+          description: Número total de personas rechazadas
+          example: 8
+
+    EventConfig:
+      type: object
+      properties:
+        eventDate:
+          type: string
+          format: date
+          description: Fecha del evento
+          example: "2025-10-15"
+        eventTime:
+          type: string
+          description: Hora del evento en formato HH:MM
+          example: "18:00"
+        eventTitle:
+          type: string
+          description: Título del evento
+          example: "Boda de Benito & Gabriela"
+        coupleNames:
+          type: string
+          description: Nombres de la pareja
+          example: "Benito & Gabriela"
+        location:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Nombre del lugar
+              example: "Salón de Eventos El Jardín"
+            address:
+              type: string
+              description: Dirección del lugar
+              example: "Av. Principal 123, Ciudad"
+            coordinates:
+              type: string
+              description: Coordenadas GPS
+              example: "40.7128,-74.0060"
+        itinerary:
+          type: array
+          items:
+            type: object
+            properties:
+              time:
+                type: string
+                description: Hora del evento
+                example: "06:00 pm"
+              title:
+                type: string
+                description: Título del evento
+                example: "MISA"
+              icon:
+                type: string
+                description: Clase CSS del icono
+                example: "fas fa-church"
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          description: Mensaje de error
+          example: "Error interno del servidor"

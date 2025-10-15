@@ -1,0 +1,46 @@
+{
+  "eventDate": "2025-10-15",
+  "eventTime": "18:00",
+  "eventTitle": "Boda de Benito & Gabriela",
+  "coupleNames": "Benito & Gabriela",
+  "location": {
+    "name": "Salón campestre Primavera",
+    "address": "Gral. Manuel Ávila Camacho 704, Colonias Primavera, 89130 Tampico",
+    "coordinates": "22.244618075782753, -97.86153137013135",
+    "mapsUrl": "https://maps.app.goo.gl/RgjKAJ6TCD1xwBt88"
+  },
+  "itinerary": [
+    {
+      "time": "06:00 pm",
+      "title": "MISA",
+      "icon": "fas fa-church"
+    },
+    {
+      "time": "07:30 pm", 
+      "title": "BODA CIVIL",
+      "icon": "fa-solid fa-file-signature"
+    },
+    {
+      "time": "08:00 pm",
+      "title": "FIESTA!",
+      "icon": "fa-solid fa-gifts"
+    }
+  ],
+  "giftTables": [
+    {
+      "name": "Liverpool",
+      "code": "Código: 51234567",
+      "url": "https://mesaderegalos.liverpool.com.mx/milistaderegalos/51234567"
+    },
+    {
+      "name": "Palacio de Hierro",
+      "code": "Código: PH987654",
+      "url": "https://www.elpalaciodehierro.com/mesa-de-regalos/PH987654"
+    },
+    {
+      "name": "Amazon",
+      "code": "Lista: bit.ly/benitoygabriela",
+      "url": "https://www.amazon.com.mx/wedding/share/regalo-boda"
+    }
+  ]
+}
