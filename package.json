@@ -2,9 +2,9 @@
   "name": "invitacion-backend",
   "version": "1.0.0",
   "description": "Backend para invitación digital",
-  "main": "server.js",
+  "main": "simple-server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node simple-server.js",
     "dev": "nodemon server.js",
     "build": "node build.js"
   },
