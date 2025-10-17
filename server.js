@@ -18,15 +18,10 @@ const limiter = rateLimit({
   legacyHeaders: false
 });
 
-// CORS específico
+// CORS completamente abierto (temporal)
 const corsOptions = {
-  origin: [
-    'http://localhost:4200',
-    'http://localhost:3000',
-    'https://bodagabrielaybenito.netlify.app',
-    process.env.FRONTEND_URL
-  ].filter(Boolean),
-  credentials: true,
+  origin: '*',
+  credentials: false,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key']
