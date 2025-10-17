@@ -1,0 +1,12 @@
+{
+  "familiasConfirmadas": [],
+  "familiasRechazadas": [],
+  "intentosPorFamilia": {},
+  "contadores": {
+    "familiasConfirmadas": 0,
+    "familiasRechazadas": 0,
+    "totalInvitadosConfirmados": 0,
+    "totalInvitadosRechazados": 0
+  },
+  "ultimaActualizacion": "2024-01-01T00:00:00.000Z"
+}

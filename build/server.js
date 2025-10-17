@@ -25,7 +25,6 @@ const corsOptions = {
     'http://localhost:3000',
     'http://127.0.0.1:4200',
     'http://127.0.0.1:3000',
-    'http://192.168.1.69:4200',
     'https://bodagabrielaybenito.netlify.app',
     process.env.FRONTEND_URL
   ].filter(Boolean),
@@ -308,50 +307,12 @@ app.get('/api/event-config', (req, res) => {
   }
 });
 
-// Endpoint para validar familia invitada
-app.post('/api/validate-family', (req, res) => {
-  try {
-    const { familyName } = req.body;
-    const configPath = path.join(__dirname, 'config', 'event-config.json');
-    
-    if (!fs.existsSync(configPath)) {
-      return res.status(404).json({ success: false, message: 'Configuración no encontrada' });
-    }
-    
-    const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-    const normalizedInput = familyName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
-    
-    const family = config.invitedFamilies.find(f => 
-      f.familyName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim() === normalizedInput
-    );
-    
-    if (family) {
-      res.json({ 
-        success: true, 
-        family: {
-          familyName: family.familyName,
-          maxGuests: family.maxGuests
-        }
-      });
-    } else {
-      res.status(404).json({ 
-        success: false, 
-        message: 'Familia no encontrada en la lista de invitados' 
-      });
-    }
-  } catch (error) {
-    console.error('❌ Error al validar familia:', error);
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
 // Endpoint de salud
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Backend ejecutándose en http://0.0.0.0:${PORT}`);
-  console.log(`🌐 Accesible desde la red en http://192.168.1.69:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`🚀 Backend ejecutándose en http://localhost:${PORT}`);
   console.log(`📁 Archivo de invitados: ${invitadosPath}`);
 });

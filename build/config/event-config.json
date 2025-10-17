@@ -1,5 +1,5 @@
 {
-  "eventDate": "2025-10-18",
+  "eventDate": "2025-10-30",
   "eventTime": "18:00",
   "eventTitle": "Boda de Benito & Gabriela",
   "coupleNames": "Benito & Gabriela",
@@ -44,24 +44,6 @@
       "name": "Amazon",
       "code": "Lista: bit.ly/benitoygabriela",
       "url": "https://www.amazon.com.mx/wedding/share/regalo-boda"
-    }
-  ],
-  "invitedFamilies": [
-    {
-      "familyName": "Mellado Salas",
-      "maxGuests": 4
-    },
-    {
-      "familyName": "Román Cruz",
-      "maxGuests": 2
-    },
-    {
-      "familyName": "Rodríguez Cruz",
-      "maxGuests": 6
-    },
-    {
-      "familyName": "Hernández Morales",
-      "maxGuests": 3
     }
   ]
 }
