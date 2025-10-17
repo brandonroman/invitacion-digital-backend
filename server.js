@@ -23,21 +23,20 @@ const corsOptions = {
   origin: [
     'http://localhost:4200',
     'http://localhost:3000',
-    'http://127.0.0.1:4200',
-    'http://127.0.0.1:3000',
-    'http://192.168.1.69:4200',
     'https://bodagabrielaybenito.netlify.app',
-    process.env.FRONTEND_URL,
-    process.env.RAILWAY_PUBLIC_DOMAIN
+    process.env.FRONTEND_URL
   ].filter(Boolean),
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key']
 };
 
 // API Key middleware
 const apiKeyAuth = (req, res, next) => {
-  // Excluir endpoint de salud de autenticación
-  if (req.path === '/api/health') {
+  // Excluir endpoints públicos de autenticación
+  const publicEndpoints = ['/api/health', '/api/event-config', '/api/validate-family'];
+  if (publicEndpoints.includes(req.path)) {
     return next();
   }
   
