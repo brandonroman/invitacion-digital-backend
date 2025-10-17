@@ -7,7 +7,7 @@ const path = require('path');
 const PDFDocument = require('pdfkit');
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // Rate Limiting
 const limiter = rateLimit({
@@ -66,6 +66,12 @@ app.use(apiKeyAuth);
 
 // Ruta del archivo JSON configurable por variable de entorno
 const invitadosPath = process.env.INVITADOS_PATH || path.join(__dirname, 'invitados', 'invitados.json');
+
+// Crear directorio si no existe
+const invitadosDir = path.dirname(invitadosPath);
+if (!fs.existsSync(invitadosDir)) {
+  fs.mkdirSync(invitadosDir, { recursive: true });
+}
 
 // Endpoint para actualizar invitados
 app.post('/api/update-invitados', (req, res) => {
