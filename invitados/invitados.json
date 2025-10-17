@@ -1,25 +1,11 @@
 {
-  "familiasConfirmadas": [
-    {
-      "familia": "Rodríguez Cruz",
-      "invitados": 5,
-      "fecha": "2025-10-16T06:15:12.299Z"
-    },
-    {
-      "familia": "Mellado Salas",
-      "invitados": 1,
-      "fecha": "2025-10-16T06:17:17.088Z"
-    }
-  ],
+  "familiasConfirmadas": [],
   "familiasRechazadas": [],
-  "intentosPorFamilia": {
-    "mellado salas": 3,
-    "rodriguez cruz": 1
-  },
+  "intentosPorFamilia": {},
   "contadores": {
-    "familiasConfirmadas": 2,
+    "familiasConfirmadas": 0,
     "familiasRechazadas": 0,
-    "totalInvitadosConfirmados": 6,
+    "totalInvitadosConfirmados": 0,
     "totalInvitadosRechazados": 0
   },
   "ultimaActualizacion": "2025-10-16T06:17:17.089Z"

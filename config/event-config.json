@@ -1,8 +1,8 @@
 {
-  "eventDate": "2025-10-18",
+  "eventDate": "2025-11-15",
   "eventTime": "18:00",
-  "eventTitle": "Boda de Benito & Gabriela",
-  "coupleNames": "Benito & Gabriela",
+  "eventTitle": "Boda de Gabriela & Benito",
+  "coupleNames": "Gabriela & Benito",
   "location": {
     "name": "Salón campestre Primavera",
     "address": "Gral. Manuel Ávila Camacho 704, Colonias Primavera, 89130 Tampico",
@@ -53,15 +53,55 @@
     },
     {
       "familyName": "Román Cruz",
+      "maxGuests": 4
+    },
+    {
+      "familyName": "Maya Cruz",
+      "maxGuests": 3
+    },
+    {
+      "familyName": "Román Maya",
       "maxGuests": 2
     },
     {
-      "familyName": "Rodríguez Cruz",
+      "familyName": "Román Pecina",
+      "maxGuests": 2
+    },
+    {
+      "familyName": "Román Pecina",
+      "maxGuests": 2
+    },
+    {
+      "familyName": "García Zamora",
+      "maxGuests": 4
+    },
+    {
+      "familyName": "Mar Pozos",
+      "maxGuests": 4
+    },
+    {
+      "familyName": "Mixtega Rodríguez",
+      "maxGuests": 3
+    },
+    {
+      "familyName": "Saldivar Salem",
+      "maxGuests": 3
+    },
+    {
+      "familyName": "Rodriguez Puga",
+      "maxGuests": 2
+    },
+    {
+      "familyName": "San Juan Castro",
       "maxGuests": 6
     },
     {
-      "familyName": "Hernández Morales",
-      "maxGuests": 3
+      "familyName": "Reyes",
+      "maxGuests": 6
+    },
+    {
+      "familyName": "Mendez",
+      "maxGuests": 5
     }
   ]
 }
