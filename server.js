@@ -27,7 +27,8 @@ const corsOptions = {
     'http://127.0.0.1:3000',
     'http://192.168.1.69:4200',
     'https://bodagabrielaybenito.netlify.app',
-    process.env.FRONTEND_URL
+    process.env.FRONTEND_URL,
+    process.env.RAILWAY_PUBLIC_DOMAIN
   ].filter(Boolean),
   credentials: true,
   optionsSuccessStatus: 200
